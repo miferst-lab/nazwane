@@ -112,6 +112,13 @@ h1 {
   color: #1a3146;
 }
 
+.logo {
+  display: block;
+  height: 2.65rem;
+  width: auto;
+  margin: 0.15rem 0 0.15rem;
+}
+
 .lede {
   color: var(--ink-soft);
   max-width: 36rem;
