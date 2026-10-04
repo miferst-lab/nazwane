@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nazwane</title>
+  <meta name="description" content="Luźna myśl i krótkie, rzeczowe wskazanie, czy podobną myśl ktoś już nazwał.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#thought">Przejdź do myśli</a>
+  <header class="mast">
+    <p class="eyebrow">katalog myśli</p>
+    <h1>Nazwane</h1>
+    <p class="lede">Wpisz myśl tak, jak przychodzi: kilka zdań, jak notatka. Słowa na chwilę się przemieszczą, a potem dostaniesz krótką, rzeczową odpowiedź, czy podobną myśl ktoś już wyraził i nazwał.</p>
+  </header>
+  <main>
+    <section class="panel" aria-labelledby="composer-heading">
+      <h2 id="composer-heading">Twoja myśl</h2>
+      <form id="thought-form" novalidate>
+        <label class="field" for="thought">
+          <span class="field-label">Myśl w luźnej formie</span>
+          <textarea id="thought" name="thought" rows="6" placeholder="Np. Podpisuję kolejne pisma i dopiero później pytam, czy w ogóle myślałem."></textarea>
+        </label>
+        <p id="composer-hint" class="quiet">Wystarczy parę pełnych zdań. Pusta albo bardzo krótka notatka nie jest analizowana.</p>
+        <div class="premium-box">
+          <input id="premium" type="checkbox">
+          <label for="premium">
+            <span class="premium-title">Zdanie premium</span>
+            <span class="premium-note">Płatności nie są podpięte. Przełącznik odblokowuje zdanie premium na tym urządzeniu.</span>
+          </label>
+        </div>
+        <div class="actions">
+          <button id="submit-thought" type="submit">Nazwij tę myśl</button>
+        </div>
+        <p id="composer-notice" class="refusal" role="status"></p>
+      </form>
+    </section>
+
+    <section id="stage-section" class="panel stage-panel" hidden aria-labelledby="stage-heading">
+      <h2 id="stage-heading">Układanie</h2>
+      <div id="stage" class="stage" aria-hidden="true"></div>
+      <p id="stage-status" class="visually-hidden" aria-live="polite"></p>
+    </section>
+
+    <section id="result-section" class="panel" hidden aria-labelledby="result-heading">
+      <h2 id="result-heading" tabindex="-1">Wynik</h2>
+      <article id="result" aria-live="polite"></article>
+      <form id="share-form" class="share-form" hidden>
+        <h3>Zostaw wynik w feedzie</h3>
+        <label class="field" for="share-author">
+          <span class="field-label">Imię, opcjonalnie</span>
+          <input id="share-author" name="author" type="text" maxlength="40" autocomplete="nickname">
+        </label>
+        <div class="actions">
+          <button type="submit">Udostępnij wynik w feedzie</button>
+        </div>
+        <p id="share-notice" class="quiet" role="status"></p>
+      </form>
+    </section>
+
+    <section class="panel" aria-labelledby="feed-heading">
+      <h2 id="feed-heading">Feed</h2>
+      <p class="device-note">Feed jest na tym urządzeniu, nie na wspólnym serwerze.</p>
+      <p class="quiet">Można tu zostawić własny wynik albo skomentować czyjś, także pogląd myśliciela. Komentarz przechodzi przez to samo sito, zanim się pojawi.</p>
+      <div id="feed"></div>
+    </section>
+  </main>
+  <footer class="colophon">
+    <p>Nazwane trzyma analizę w katalogu na tej stronie. Myśl nie jest wysyłana na serwer.</p>
+  </footer>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
