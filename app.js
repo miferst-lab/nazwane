@@ -310,7 +310,7 @@ function renderResult(analysis) {
   var section = document.getElementById("result-section");
   var card = document.getElementById("result");
   card.textContent = "";
-  section.hidden = false;
+  settleResult(section);
 
   if (!analysis || !analysis.ok) {
     card.appendChild(el("p", "refusal", (analysis && analysis.reason) || "Nie udało się odczytać myśli."));
@@ -352,30 +352,9 @@ function showMessage(analysis) {
   var section = document.getElementById("result-section");
   var card = document.getElementById("result");
   card.textContent = "";
-  section.hidden = false;
+  settleResult(section);
   card.appendChild(el("p", "refusal", analysis.reason));
   document.getElementById("share-form").hidden = true;
-}
-
-function svgIcon(kind) {
-  var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 48 48");
-  svg.setAttribute("aria-hidden", "true");
-  svg.classList.add("glyph");
-  var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  var shapes = {
-    quill: "M10 40c8-2 12-10 14-18 2-8 6-14 14-16-6 6-8 12-10 18-4 8-10 14-18 16z M24 22c2 4 2 8 0 12",
-    seal: "M24 6a12 12 0 1 0 0 24 12 12 0 0 0 0-24z M16 36h16 M20 40h8",
-    leaf: "M12 36c2-12 8-22 24-26-2 14-8 24-24 26z M16 32c6-6 12-10 18-12",
-    book: "M8 12h14c4 3 4 3 4 8v16H12c-3 0-4-1-4-4V12z M40 12H26c-4 3-4 3-4 8v16h14c3 0 4-1 4-4V12z"
-  };
-  path.setAttribute("d", shapes[kind] || shapes.seal);
-  path.setAttribute("fill", "none");
-  path.setAttribute("stroke", "currentColor");
-  path.setAttribute("stroke-width", "1.6");
-  path.setAttribute("stroke-linejoin", "round");
-  svg.appendChild(path);
-  return svg;
 }
 
 function showAnimation(words) {
@@ -386,38 +365,41 @@ function showAnimation(words) {
   section.hidden = false;
   status.textContent = "Słowa układają się w wynik.";
 
-  var symbols = ["❧", "§", "¶", "✦"];
-  var icons = ["quill", "seal", "leaf", "book"];
+  var marks = ["·", "◦", "·", "˚"];
   var pieces = words.slice();
-  symbols.forEach(function (symbol) { pieces.push(symbol); });
+  marks.forEach(function (mark) { pieces.push(mark); });
 
   pieces.forEach(function (piece, index) {
-    var node = el("span", "chip" + (symbols.indexOf(piece) !== -1 ? " chip-symbol" : ""));
+    var node = el("span", index >= words.length ? "chip chip-mark" : "chip");
     node.textContent = piece;
     placeChip(node, index, pieces.length);
     stage.appendChild(node);
   });
-
-  icons.forEach(function (kind, index) {
-    var wrap = el("span", "chip chip-icon");
-    wrap.appendChild(svgIcon(kind));
-    placeChip(wrap, pieces.length + index, pieces.length + icons.length);
-    stage.appendChild(wrap);
-  });
 }
 
 function placeChip(node, index, total) {
-  var startX = (index * 37) % 78 + 4;
-  var startY = (index * 23) % 62 + 6;
-  var endX = ((index * 53) + 18) % 76 + 6;
-  var endY = ((index * 29) + 10) % 58 + 12;
-  node.style.setProperty("--x0", startX + "%");
-  node.style.setProperty("--y0", startY + "%");
-  node.style.setProperty("--x1", endX + "%");
-  node.style.setProperty("--y1", endY + "%");
-  node.style.setProperty("--r0", ((index % 5) - 2) * 8 + "deg");
-  node.style.setProperty("--r1", ((index % 3) - 1) * 4 + "deg");
-  node.style.animationDelay = (index * 0.05) + "s";
+  var angle = (index / Math.max(total, 1)) * Math.PI * 2 + (index % 2) * 0.4;
+  var startX = 46 + Math.cos(angle) * 5;
+  var startY = 44 + Math.sin(angle) * 4;
+  var reach = 36 + (index % 4) * 5;
+  var endX = 50 + Math.cos(angle) * reach - 6;
+  var endY = 46 + Math.sin(angle) * (reach * 0.7) - 4;
+  endX = Math.max(2, Math.min(76, endX));
+  endY = Math.max(4, Math.min(74, endY));
+  node.style.setProperty("--x0", startX.toFixed(1) + "%");
+  node.style.setProperty("--y0", startY.toFixed(1) + "%");
+  node.style.setProperty("--x1", endX.toFixed(1) + "%");
+  node.style.setProperty("--y1", endY.toFixed(1) + "%");
+  node.style.setProperty("--r0", "0deg");
+  node.style.setProperty("--r1", ((index % 7) - 3) * 14 + "deg");
+  node.style.animationDelay = (index * 0.03) + "s";
+}
+
+function settleResult(section) {
+  section.hidden = false;
+  section.classList.remove("is-settling");
+  void section.offsetWidth;
+  section.classList.add("is-settling");
 }
 
 function wait(ms) {
