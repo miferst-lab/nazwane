@@ -114,9 +114,16 @@ h1 {
 
 .logo {
   display: block;
-  height: 2.65rem;
+  height: 1.7rem;
   width: auto;
-  margin: 0.15rem 0 0.15rem;
+  max-width: 100%;
+  margin: 0.2rem 0 0.35rem;
+}
+
+h1:has(.logo) {
+  margin: 0;
+  line-height: 1;
+  max-width: 100%;
 }
 
 .lede {
