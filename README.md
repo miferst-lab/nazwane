@@ -12,7 +12,7 @@ Komentarz nad `analyzeThought` wskazuje miejsce, w którym później można podp
 
 ## Premium i feed
 
-Premium to przełącznik na tym urządzeniu. Płatności nie są podpięte. Włączenie pokazuje jedno ostrożne zdanie w stylu „świadczy to o tym, że jesteś osobą …”. Jest podpisane jako ostrożne odczytanie, nie diagnoza.
+Premium to przełącznik na tym urządzeniu. Płatności nie są podpięte. Włączenie otwiera szeroki katalog, liczący setki myślicieli, i pokazuje jedno ostrożne zdanie w stylu „świadczy to o tym, że jesteś osobą …”. Jest podpisane jako ostrożne odczytanie, nie diagnoza. Bez przełącznika analiza zostaje przy krótkiej liście dwunastu i nie szuka w szerokim katalogu.
 
 Feed zapisuje udostępnione wyniki i komentarze w `localStorage` przeglądarki. Jest na tym urządzeniu, nie na wspólnym serwerze. W `data.js` są cztery przykładowe wpisy.
 

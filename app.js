@@ -164,6 +164,8 @@ function themeHits(textFolded, theme) {
  * Obecny wynik to wyłącznie lokalny katalog z data.js
  * (nakładanie słów i tematów). Gdy nic nie pasuje, funkcja
  * nie wymyśla myśliciela.
+ * Przy premium fałszywym liczy się tylko krótka lista
+ * (thinker.free). Przy premium przeszukiwany jest cały katalog.
  */
 function analyzeThought(text, options) {
   var premium = !!(options && options.premium);
@@ -183,6 +185,11 @@ function analyzeThought(text, options) {
 
   var foldedText = fold(trimmed);
   var thinkers = (window.NAZWANE_DATA && window.NAZWANE_DATA.thinkers) || [];
+  if (!premium) {
+    thinkers = thinkers.filter(function (thinker) {
+      return thinker.free === true;
+    });
+  }
   var best = null;
 
   thinkers.forEach(function (thinker) {
